@@ -10,6 +10,7 @@ import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.server.websocket.WebSocketBuilder
 import org.http4s.websocket.WebSocketFrame
+import org.http4s.websocket.WebSocketFrame.Close
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -28,9 +29,12 @@ object Main extends IOApp {
           }
           pipe = (s: Stream[IO, WebSocketFrame]) => s.map(x => {
             println(x)
-            allQueues
-              .filter(_ != queue)
-              .foreach(_.enqueue1(x).unsafeRunSync())
+            x match {
+              case Close(_) => allQueues = allQueues.filter(_ == queue)
+              case _ => allQueues
+                .filter(_ != queue)
+                .foreach(_.enqueue1(x).unsafeRunSync())
+            }
           })
           response <- WebSocketBuilder[IO].build(queue.dequeue, pipe) //needs stream for sent messages and pipe to consume them
 
