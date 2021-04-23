@@ -1,4 +1,4 @@
-val Http4sVersion = "0.21.16"
+val Http4sVersion = "0.21.22"
 val CirceVersion = "0.13.0"
 val MunitVersion = "0.7.20"
 val LogbackVersion = "1.2.3"
@@ -19,7 +19,9 @@ lazy val root = (project in file("."))
       "org.scalameta"   %% "munit"               % MunitVersion           % Test,
       "org.typelevel"   %% "munit-cats-effect-2" % MunitCatsEffectVersion % Test,
       "ch.qos.logback"  %  "logback-classic"     % LogbackVersion,
-      "org.scalameta"   %% "svm-subs"            % "20.2.0"
+      "org.scalameta"   %% "svm-subs"            % "20.2.0",
+      "org.typelevel"   %% "cats-effect"         % "2.5.0",
+      "co.fs2"          %% "fs2-core"            % "2.5.3"
     ),
     addCompilerPlugin("org.typelevel" %% "kind-projector"     % "0.10.3"),
     addCompilerPlugin("com.olegpy"    %% "better-monadic-for" % "0.3.1"),
